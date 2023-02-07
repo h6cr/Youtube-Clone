@@ -3,12 +3,27 @@ import { Box, Stack, Typography } from "@mui/material";
 import { Sidebar, Videos } from "./";
 import { fetchFromApi } from "../utils/fetchFromApi";
 import { Category } from "@mui/icons-material";
+import mock_videos from "../mock/mock_videos.json";
 
 const Feed = () => {
-  const [selectedCategory, setSelectedCategory] = useState("New");
+  const [selectedCategory, setSelectedCategory] = useState({
+    name: "New",
+    displayName: "新鲜",
+  });
+  const [videos, setVideos] = useState([]);
+
+  // fetch videos from mock data
   useEffect(() => {
-    fetchFromApi(`search?part=snippet&q=${selectedCategory}`);
+    setVideos(mock_videos);
+    console.log("mock_videos: ", mock_videos);
   }, [selectedCategory]);
+
+  // fetch videos from api
+  // useEffect(() => {
+  //   fetchFromApi(`search?part=snippet&q=${selectedCategory.name}`).then(
+  //     (data) => setVideos(data.items)
+  //   );
+  // }, [selectedCategory]);
 
   return (
     <Stack sx={{ flexDirection: { sx: "column", md: "row" } }}>
@@ -29,10 +44,11 @@ const Feed = () => {
       </Box>
       <Box p={2} sx={{ overflowY: "auto", height: "90vh", flex: 2 }}>
         <Typography variant="h4" fontWeight="bold" sx={{ color: "white" }}>
-          {selectedCategory}
+          {selectedCategory.displayName}
           <span style={{ color: "#F31503" }}>视频</span>
         </Typography>
-        <Videos videos={[]} />
+        {console.log("state videos: ", videos)}
+        <Videos videos={videos} />
       </Box>
     </Stack>
   );
