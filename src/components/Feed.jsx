@@ -13,18 +13,19 @@ const Feed = () => {
   const [videos, setVideos] = useState([]);
 
   // fetch videos from mock data
-  useEffect(() => {
-    setVideos(mock_videos);
-    console.log("mock_videos: ", mock_videos);
-  }, [selectedCategory]);
-
-  // fetch videos from api
   // useEffect(() => {
-  //   fetchFromApi(`search?part=snippet&q=${selectedCategory.name}`).then(
-  //     (data) => setVideos(data.items)
-  //   );
+  //   setVideos(mock_videos);
+  //   // console.log("mock_videos: ", mock_videos);
   // }, [selectedCategory]);
 
+  // fetch videos from api
+  useEffect(() => {
+    fetchFromApi(`search?part=snippet&q=${selectedCategory.name}`).then(
+      (data) => setVideos(data.items)
+    );
+  }, [selectedCategory]);
+
+  if (!videos.length) return "加载中……";
   return (
     <Stack sx={{ flexDirection: { sx: "column", md: "row" } }}>
       <Box
@@ -43,11 +44,15 @@ const Feed = () => {
         </Typography>
       </Box>
       <Box p={2} sx={{ overflowY: "auto", height: "90vh", flex: 2 }}>
-        <Typography variant="h4" fontWeight="bold" sx={{ color: "white" }}>
+        <Typography
+          variant="h4"
+          fontWeight="bold"
+          sx={{ color: "white", mb: "20px" }}
+        >
           {selectedCategory.displayName}
           <span style={{ color: "#F31503" }}>视频</span>
         </Typography>
-        {console.log("state videos: ", videos)}
+        {/* {console.log("state videos: ", videos)} */}
         <Videos videos={videos} />
       </Box>
     </Stack>

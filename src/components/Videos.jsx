@@ -2,15 +2,20 @@ import React from "react";
 import { Stack, Box } from "@mui/material";
 import { VideoCard, ChannelCard } from "./";
 
-const Videos = ({ videos }) => {
+const Videos = ({ videos, direction }) => {
+  if (!videos?.length) return <div style={{ color: "#fff" }}>"加载中……"</div>;
   return (
-    <Stack direction="row" flexWrap="wrap" justifyContent="start" gap={2}>
-      {console.log("videos: ", videos)}
-      <VideoCard />
+    <Stack
+      direction={direction || "row"}
+      flexWrap="wrap"
+      justifyContent="center"
+      gap={3}
+    >
+      {/* {console.log("videos: ", videos)} */}
       {videos.map((item, idx) => (
         <Box key={idx}>
           {/* {item.id.videoId && console.log(item)} */}
-          {item.id.videoId && <VideoCard video={item || {}} />}
+          {item.id.videoId && <VideoCard video={item} />}
           {item.id.channelId && <ChannelCard channelDetail={item} />}
         </Box>
       ))}
